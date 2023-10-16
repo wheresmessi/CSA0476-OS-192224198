@@ -1,0 +1,9 @@
+#include <stdio.h>
+#include <unistd.h>
+#include<sys/types.h>
+
+int main(){
+	
+	printf("Hello Nandy \nyour PID is %d\n",getpid());
+	printf("Parent Process PID is %d \n",getpid());
+}
