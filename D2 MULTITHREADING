@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+#define NUM_THREADS 2
+
+void *threadFunction1(void *arg) {
+    printf("Thread 1: This is the first thread.\n");
+    pthread_exit(NULL);
+}
+
+void *threadFunction2(void *arg) {
+    printf("Thread 2: This is the second thread.\n");
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t threads[NUM_THREADS];
+    int rc;
+    long t;
+
+    // Thread 1
+    rc = pthread_create(&threads[0], NULL, threadFunction1, NULL);
+    if (rc) {
+        printf("Error: return code from pthread_create() is %d\n", rc);
+        exit(-1);
+    }
+
+    // Thread 2
+    rc = pthread_create(&threads[1], NULL, threadFunction2, NULL);
+    if (rc) {
+        printf("Error: return code from pthread_create() is %d\n", rc);
+        exit(-1);
+    }
+
+    // Wait for threads to finish
+    for (t = 0; t < NUM_THREADS; t++) {
+        pthread_join(threads[t], NULL);
+    }
+
+    printf("Main: All threads are completed.\n");
+    pthread_exit(NULL);
+}
